@@ -1,0 +1,65 @@
+{
+	"id": "jghaanstra.homey",
+	"name": {
+		"en": "My Homey App",
+		"nl": "Mijn Homey App"
+	},
+	"version": "1.0.0",
+	"compatibility": "0.x || 1.x",
+	"author": {
+		"name": "Jelger Haanstra",
+		"email": "homey@solidewebservices.com"
+	},
+	"category": "appliances",
+	"description": {
+		"en": "My Homey App",
+		"nl": "Mijn Homey App"
+	},
+	"dependencies": {
+		"net": "*"
+	},
+	"permissions": [
+		"homey:manager:ledring",
+		"homey:manager:speech-output"
+	],
+	"flow": {
+		"actions": [
+			{
+				"id":"say_parsed_text",
+				"title":{
+					"en":"Say parsed text",
+					"nl":"Spreek verrijkte text"
+				},
+				"args": [
+					{
+						"name": "text",
+						"type": "text"
+					}
+				]
+			}
+		]
+	},
+	"screensavers": [
+		{
+			"name": "led_swirl_green",
+			"title": {
+				"en": "Swirl - Green",
+				"nl": "Swirl - Groen"
+			}
+		},
+		{
+			"name": "led_swirl_colorflow",
+			"title": {
+				"en": "Swirl - Colorflow",
+				"nl": "Swirl - Colorflow"
+			}
+		},
+		{
+			"name": "led_rain",
+			"title": {
+				"en": "Pooring Rain",
+				"nl": "Stromende Regen"
+			}
+		}
+	]
+}
