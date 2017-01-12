@@ -2,3 +2,4 @@
 
 - Personal LED-Ring Collection (based on https://github.com/OpenMindNL/ledcollection)
 - Speech Parser (based on https://github.com/irritanterik/homey-parse-speech)
+- Driver Xiaomi Mi Robot Vacuum Cleaner (https://github.com/jghaanstra/com.robot.xiaomi-mi)
