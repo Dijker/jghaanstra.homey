@@ -4,7 +4,7 @@
 		"en": "My Homey App",
 		"nl": "Mijn Homey App"
 	},
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -20,9 +20,10 @@
 	},
 	"permissions": [
 		"homey:manager:ledring",
+		"homey:manager:speech-input",
 		"homey:manager:speech-output"
 	],
-    "drivers": [
+	"drivers": [
 		{
 			"id": "mi-robot",
 			"name": {
@@ -41,68 +42,68 @@
 				}
 			],
 			"settings": [
-			    {
-                    "type": "group",
-                    "label": {
-                        "en": "Mi Robot settings",
+				{
+					"type": "group",
+					"label": {
+						"en": "Mi Robot settings",
 						"nl": "Mi Robot instellingen"
-                    },
+					},
 					"children": [
-				        {
-				            "id": "address",
-				            "type": "text",
-				            "value": "0.0.0.0",
-				            "label": {
-				                "en": "IP Address",
-				                "nl": "IP Adres"
-				            }
-				        },
-				        {
-					        "id": "start",
-					        "type": "text",
-					        "value": "",
-					        "label": {
-						        "en": "HEX value to start Mi Robot",
-						        "nl": "HEX waarde om Mi Robot te starten"
-					        }
-				        },
-                        {
-					        "id": "pause",
-					        "type": "text",
-					        "value": "",
-					        "label": {
-						        "en": "HEX value to pause Mi Robot",
-						        "nl": "HEX waarde om Mi Robot te pauzeren"
-					        }
-				        },
-                        {
-					        "id": "home",
-					        "type": "text",
-					        "value": "",
-					        "label": {
-						        "en": "HEX value to send Mi Robot home",
-						        "nl": "HEX waarde om Mi Robot naar huis te sturen"
-					        }
-				        },
-                        {
-					        "id": "find",
-					        "type": "text",
-					        "value": "",
-					        "label": {
-						        "en": "HEX value to find Mi Robot",
-						        "nl": "HEX waarde om Mi Robot te vinden"
-					        }
-				        }
-		            ]
-		        }
-		    ]
+						{
+							"id": "address",
+							"type": "text",
+							"value": "0.0.0.0",
+							"label": {
+								"en": "IP Address",
+								"nl": "IP Adres"
+							}
+						},
+						{
+							"id": "start",
+							"type": "text",
+							"value": "",
+							"label": {
+								"en": "HEX value to start Mi Robot",
+								"nl": "HEX waarde om Mi Robot te starten"
+							}
+						},
+						{
+							"id": "pause",
+							"type": "text",
+							"value": "",
+							"label": {
+								"en": "HEX value to pause Mi Robot",
+								"nl": "HEX waarde om Mi Robot te pauzeren"
+							}
+						},
+						{
+							"id": "home",
+							"type": "text",
+							"value": "",
+							"label": {
+								"en": "HEX value to send Mi Robot home",
+								"nl": "HEX waarde om Mi Robot naar huis te sturen"
+							}
+						},
+						{
+							"id": "find",
+							"type": "text",
+							"value": "",
+							"label": {
+								"en": "HEX value to find Mi Robot",
+								"nl": "HEX waarde om Mi Robot te vinden"
+							}
+						}
+					]
+				}
+			]
 		}
 	],
 	"flow": {
 		"actions": [
 			{
-				"id":"say_parsed_text",
-				"title":{
+				"id": "say_parsed_text",
+				"title": {
 					"en":"Say parsed text",
 					"nl":"Spreek verrijkte text"
 				},
@@ -113,7 +114,7 @@
 					}
 				]
 			},
-            {
+			{
 				"id": "startCleaning",
 				"title": {
 					"en": "Start vacuum cleaning",
@@ -141,7 +142,7 @@
 					{
 						"name": "device",
 						"type": "device",
-                        "placeholder": {
+						"placeholder": {
 							"en": "Select Mi Robot",
 							"nl": "Selecteer Mi Robot"
 						},
@@ -159,7 +160,7 @@
 					  {
 						"name": "device",
 						"type": "device",
-                        "placeholder": {
+						"placeholder": {
 							"en": "Select Mi Robot",
 							"nl": "Selecteer Mi Robot"
 						},
@@ -167,7 +168,7 @@
 					  }
 				]
 			},
-            {
+			{
 				"id": "findMiRobot",
 				"title": {
 					"en": "Find Mi Robot",
@@ -177,7 +178,7 @@
 					  {
 						"name": "device",
 						"type": "device",
-                        "placeholder": {
+						"placeholder": {
 							"en": "Select Mi Robot",
 							"nl": "Selecteer Mi Robot"
 						},
@@ -187,6 +188,16 @@
 			}
 		]
 	},
+	"speech": [
+		{
+			"id": "echo",
+			"importance": 1,
+			"triggers": {
+				"en": [ "echo", "repeat", "parrot" ],
+				"nl": [ "echo", "herhaal", "herhalen", "papegaai", "napraten", "praat na", "praat mij na" ]
+			}
+		}
+	],
 	"screensavers": [
 		{
 			"name": "led_swirl_green",

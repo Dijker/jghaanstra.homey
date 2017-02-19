@@ -15,8 +15,6 @@ module.exports.init = function( devices_data, callback ) {
 
 	});
 
-    Homey.log ("Xiaomi Mi Robot - Init done");
-
 	callback (null, true);
 }
 

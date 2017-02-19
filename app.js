@@ -1,13 +1,21 @@
 "use strict";
 
-// ============ SPEECH PARSER ============== //
+var sentence = '';
+
 function init() {
+
+    // SPEECH PARSER
     Homey.manager('flow').on('action.say_parsed_text', function (callback, args, state) {
         Homey.manager('speech-output').say(parse(args.text), {session: state.session})
         callback(null, true)
     })
+
+    // ECHO
+    Homey.manager('speech-input').on('speech', onSpeech);
+
 };
 
+// ============ SPEECH PARSER ============== //
 function parse (text) {
     var replaceMap = [
         ['km/u', ' kilometer per uur'],
@@ -30,6 +38,16 @@ function parse (text) {
     })
 
     return result
+}
+
+// ============ ECHO ============== //
+function onSpeech(speech) {
+
+    speech.triggers.some(function (trigger) {
+        sentence = speech.transcript.replace(trigger.text, '');
+        speech.say(sentence);
+    });
+
 }
 
 module.exports.init = init
