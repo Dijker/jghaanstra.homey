@@ -45,7 +45,7 @@ function onSpeech(speech) {
 
     speech.triggers.some(function (trigger) {
         sentence = speech.transcript.replace(trigger.text, '');
-        speech.say(sentence);
+        Homey.manager('speech-output').say(sentence)
     });
 
 }
