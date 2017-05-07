@@ -4,7 +4,7 @@
 		"en": "My Homey App",
 		"nl": "Mijn Homey App"
 	},
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -23,82 +23,6 @@
 		"homey:manager:speech-input",
 		"homey:manager:speech-output"
 	],
-	"drivers": [
-		{
-			"id": "mi-robot",
-			"name": {
-				"en": "Mi Robot Vacuum Cleaner",
-				"nl": "Mi Robot Stofzuiger"
-			},
-			"images": {
-				"large": "drivers/mi-robot/assets/images/large.jpg",
-				"small": "drivers/mi-robot/assets/images/small.jpg"
-			},
-			"class": "other",
-			"capabilities": [],
-			"pair": [
-				{
-					"id": "start"
-				}
-			],
-			"settings": [
-				{
-					"type": "group",
-					"label": {
-						"en": "Mi Robot settings",
-						"nl": "Mi Robot instellingen"
-					},
-					"children": [
-						{
-							"id": "address",
-							"type": "text",
-							"value": "0.0.0.0",
-							"label": {
-								"en": "IP Address",
-								"nl": "IP Adres"
-							}
-						},
-						{
-							"id": "start",
-							"type": "text",
-							"value": "",
-							"label": {
-								"en": "HEX value to start Mi Robot",
-								"nl": "HEX waarde om Mi Robot te starten"
-							}
-						},
-						{
-							"id": "pause",
-							"type": "text",
-							"value": "",
-							"label": {
-								"en": "HEX value to pause Mi Robot",
-								"nl": "HEX waarde om Mi Robot te pauzeren"
-							}
-						},
-						{
-							"id": "home",
-							"type": "text",
-							"value": "",
-							"label": {
-								"en": "HEX value to send Mi Robot home",
-								"nl": "HEX waarde om Mi Robot naar huis te sturen"
-							}
-						},
-						{
-							"id": "find",
-							"type": "text",
-							"value": "",
-							"label": {
-								"en": "HEX value to find Mi Robot",
-								"nl": "HEX waarde om Mi Robot te vinden"
-							}
-						}
-					]
-				}
-			]
-		}
-	],
 	"flow": {
 		"actions": [
 			{
@@ -112,78 +36,6 @@
 						"name": "text",
 						"type": "text"
 					}
-				]
-			},
-			{
-				"id": "startCleaning",
-				"title": {
-					"en": "Start vacuum cleaning",
-					"nl": "Start stofzuigen"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"placeholder": {
-							"en": "Select Mi Robot",
-							"nl": "Selecteer Mi Robot"
-						},
-						"filter": "driver_id=mi-robot"
-					}
-				]
-			},
-			{
-				"id": "stopCleaning",
-				"title": {
-					"en": "Stop vacuum cleaning",
-					"nl": "Stop stofzuigen"
-				},
-				"args": [
-					{
-						"name": "device",
-						"type": "device",
-						"placeholder": {
-							"en": "Select Mi Robot",
-							"nl": "Selecteer Mi Robot"
-						},
-						"filter": "driver_id=mi-robot"
-					}
-				]
-			},
-			{
-				"id": "goHomeMiRobot",
-				"title": {
-					"en": "Send Mi Robot home",
-					"nl": "Stuur Mi Robot naar huis"
-				},
-				"args": [
-					  {
-						"name": "device",
-						"type": "device",
-						"placeholder": {
-							"en": "Select Mi Robot",
-							"nl": "Selecteer Mi Robot"
-						},
-						"filter": "driver_id=mi-robot"
-					  }
-				]
-			},
-			{
-				"id": "findMiRobot",
-				"title": {
-					"en": "Find Mi Robot",
-					"nl": "Vind Mi Robot"
-				},
-				"args": [
-					  {
-						"name": "device",
-						"type": "device",
-						"placeholder": {
-							"en": "Select Mi Robot",
-							"nl": "Selecteer Mi Robot"
-						},
-						"filter": "driver_id=mi-robot"
-					  }
 				]
 			}
 		]
@@ -199,7 +51,28 @@
 		}
 	],
 	"screensavers": [
-		{
+        {
+	        "name": "led_red_blue_alert",
+	        "title": {
+	            "en": "Alert - Red & Blue",
+	            "nl": "Alarm - Rood & Blauw"
+	        }
+	    },
+        {
+	        "name": "led_eyes_red",
+	        "title": {
+	            "en": "Eyes - Red",
+	            "nl": "Ogen - Rood"
+	        }
+	    },
+        {
+	        "name": "led_flash_red",
+	        "title": {
+	            "en": "Flash - Red",
+	            "nl": "Flits - Rood"
+	        }
+	    },
+        {
 			"name": "led_swirl_green",
 			"title": {
 				"en": "Swirl - Green",
