@@ -1,10 +1,11 @@
 {
 	"id": "jghaanstra.homey",
+    "sdk": 2,
 	"name": {
-		"en": "My Homey App",
-		"nl": "Mijn Homey App"
+		"en": "Owney App",
+		"nl": "Owney App"
 	},
-	"version": "1.2.1",
+	"version": "2.0.0",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -40,16 +41,36 @@
 			}
 		]
 	},
-	"speech": [
-		{
-			"id": "echo",
-			"importance": 1,
-			"triggers": {
-				"en": [ "echo", "repeat", "parrot" ],
-				"nl": [ "echo", "herhaal", "herhalen", "papegaai", "napraten", "praat na", "praat mij na" ]
-			}
-		}
-	],
+    "speech": {
+        "en": {
+            "element": {
+                "echo": {
+                    "type": "regex",
+                    "value": "(echo|repeat|parrot)"
+                }
+            },
+            "group": {
+                "main": {
+                    "set": "echo",
+                    "ordered": false,
+                    "allowDisconnect": false,
+                    "capturingGroup": true
+                }
+            }
+        },
+        "nl": {
+            "element": {
+                "echo": {
+                    "type": "regex",
+                    "value": "(echo|herhaal|herhalen|papegaai|napraten|praat na|praat mij na)"
+                }
+            }
+        }
+    },
+    "speechExamples": {
+        "en": ["Repeat after me"],
+        "nl": ["Herhaal mij"]
+    },
 	"screensavers": [
         {
 	        "name": "led_red_blue_alert",

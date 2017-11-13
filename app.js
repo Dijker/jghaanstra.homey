@@ -1,19 +1,85 @@
 "use strict";
 
-var sentence = '';
+const Homey = require('homey');
 
-function init() {
+class OwneyApp extends Homey.App {
 
-    // SPEECH PARSER
-    Homey.manager('flow').on('action.say_parsed_text', function (callback, args, state) {
-        Homey.manager('speech-output').say(parse(args.text), {session: state.session})
-        callback(null, true)
-    })
+    onInit() {
 
-    // ECHO
-    Homey.manager('speech-input').on('speech', onSpeech);
+        this.log('Initializing Owney app ...');
 
-};
+        // SPEECH PARSER
+        new Homey.FlowCardAction('say_parsed_text')
+            .register()
+            .registerRunListener((args, state) => {
+                Homey.ManagerSpeechOutput.say(parse(args.text))
+            })
+
+        // ECHO
+        Homey.ManagerSpeechInput.on('speechEval', function(speech, callback) {
+            callback(null, speech);
+        });
+
+        Homey.ManagerSpeechInput.on('speechMatch', function(speech, onSpeechEvalData) {
+            let sentence = speech.transcript.replace(speech.matches.main.echo.transcript, '');
+            Homey.ManagerSpeechOutput.say(sentence);
+        });
+
+        // PERSONAL LED COLLECTION
+        Array.prototype.concat.apply([], [
+            [
+                { id: 'led_red_blue_alert', colors: [[255, 0, 0], [0, 0, 255]] }
+        	].map(screensaver => Object.assign(
+        		{ generator: generateLedAlert, options: Object.assign({ fps: 1, tfps: 4, rpm: 60 }, screensaver.options) },
+        		screensaver
+        	)),
+            [
+        		{ id: 'led_flash_red', colors: [[255, 0, 0]] }
+        	].map(screensaver => Object.assign(
+        		{ generator: generateFlash, options: Object.assign({ fps: 16, tfps: 16, rpm: 0 }, screensaver.options) },
+        		screensaver
+        	)),
+            [
+        		{ id: 'led_eyes_red', colors: [[255, 0, 0], [255, 0, 0]] }
+        	].map(screensaver => Object.assign(
+        		{ generator: generateEyes, options: Object.assign({ fps: 2, tfps: 60, rpm: 0 }, screensaver.options) },
+        		screensaver
+        	)),
+        	[
+        		{ id: 'led_swirl_green', colors: [[0, 25, 0]] },
+                { id: 'led_swirl_colorflow', colors: [[0, 0, 0]] }
+        	].map(screensaver => Object.assign(
+        		{ generator: generateSwirl, options: Object.assign({ fps: 1, tfps: 60, rpm: 4 }, screensaver.options) },
+        		screensaver
+        	)),
+        	[
+        		{ id: 'led_rain', colors: [[0, 0, 255]] }
+        	].map(screensaver => Object.assign(
+        		{ generator: generateRain, options: Object.assign({ fps: 1, tfps: 12, rpm: 24 }, screensaver.options) },
+        		screensaver
+        	)),
+        ]).forEach((screensaver) => {
+
+            let animation = new Homey.LedringAnimation({
+                options: screensaver.options,
+                frames: screensaver.generator.apply(null, screensaver.colors)
+            })
+
+            animation
+                .register()
+                    .then(() => {
+                        animation.registerScreensaver(screensaver.id);
+                    })
+                    .catch(() => {
+                        this.log('Error registering animation');
+                    })
+
+        });
+
+    }
+}
+
+module.exports = OwneyApp;
 
 // ============ SPEECH PARSER ============== //
 function parse (text) {
@@ -39,69 +105,6 @@ function parse (text) {
 
     return result
 }
-
-// ============ ECHO ============== //
-function onSpeech(speech) {
-
-    speech.triggers.some(function (trigger) {
-        sentence = speech.transcript.replace(trigger.text, '');
-        Homey.manager('speech-output').say(sentence)
-    });
-
-}
-
-module.exports.init = init
-
-// ============ PERSONAL LED COLLECTION ============== //
-
-var Animation = Homey.manager('ledring').Animation;
-
-Array.prototype.concat.apply([], [
-    [
-		{ id: 'led_red_blue_alert', colors: [[255, 0, 0], [0, 0, 255]] }
-	].map(screensaver => Object.assign(
-		{ generator: generateLedAlert, options: Object.assign({ fps: 1, tfps: 4, rpm: 60 }, screensaver.options) },
-		screensaver
-	)),
-    [
-		{ id: 'led_flash_red', colors: [[255, 0, 0]] }
-	].map(screensaver => Object.assign(
-		{ generator: generateFlash, options: Object.assign({ fps: 16, tfps: 16, rpm: 0 }, screensaver.options) },
-		screensaver
-	)),
-    [
-		{ id: 'led_eyes_red', colors: [[255, 0, 0], [255, 0, 0]] }
-	].map(screensaver => Object.assign(
-		{ generator: generateEyes, options: Object.assign({ fps: 2, tfps: 60, rpm: 0 }, screensaver.options) },
-		screensaver
-	)),
-	[
-		{ id: 'led_swirl_green', colors: [[0, 25, 0]] },
-        { id: 'led_swirl_colorflow', colors: [[0, 0, 0]] }
-	].map(screensaver => Object.assign(
-		{ generator: generateSwirl, options: Object.assign({ fps: 1, tfps: 60, rpm: 4 }, screensaver.options) },
-		screensaver
-	)),
-	[
-		{ id: 'led_rain', colors: [[0, 0, 255]] }
-	].map(screensaver => Object.assign(
-		{ generator: generateRain, options: Object.assign({ fps: 1, tfps: 12, rpm: 24 }, screensaver.options) },
-		screensaver
-	)),
-]).forEach((screensaver) => {
-
-	// create animation with screensaver.options and generator(colors) function
-	var animation = new Animation({
-		options: screensaver.options,
-		frames: screensaver.generator.apply(null, screensaver.colors)
-	});
-
-	// register animation
-	animation.register(function (err, result) {
-		Homey.manager('ledring').registerScreensaver(screensaver.id, animation);
-		if (err) return Homey.error(err);
-	})
-});
 
 // ==================== Pattern generators ==================== //
 function generateSwirl( colRGB ){
