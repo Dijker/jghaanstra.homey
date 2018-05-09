@@ -4,106 +4,106 @@ const Homey = require('homey');
 
 class OwneyApp extends Homey.App {
 
-    onInit() {
+  onInit() {
 
-        this.log('Initializing Owney app ...');
+    this.log('Initializing Owney app ...');
 
-        // SPEECH PARSER
-        new Homey.FlowCardAction('say_parsed_text')
-            .register()
-            .registerRunListener((args, state) => {
-                Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session})
-            })
+    // SPEECH PARSER
+    new Homey.FlowCardAction('say_parsed_text')
+      .register()
+      .registerRunListener((args, state) => {
+        Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session})
+      })
 
-        // ECHO
-        Homey.ManagerSpeechInput.on('speechEval', function(speech, callback) {
-            callback(null, speech);
-        });
+    // ECHO
+    Homey.ManagerSpeechInput.on('speechEval', function(speech, callback) {
+      callback(null, speech);
+    });
 
-        Homey.ManagerSpeechInput.on('speechMatch', function(speech, onSpeechEvalData) {
-            let sentence = speech.transcript.replace(speech.matches.main.echo.transcript, '');
-            Homey.ManagerSpeechOutput.say(sentence);
-        });
+    Homey.ManagerSpeechInput.on('speechMatch', function(speech, onSpeechEvalData) {
+      let sentence = speech.transcript.replace(speech.matches.main.echo.transcript, '');
+      Homey.ManagerSpeechOutput.say(sentence);
+    });
 
-        // PERSONAL LED COLLECTION
-        Array.prototype.concat.apply([], [
-            [
-                { id: 'led_red_blue_alert', colors: [[255, 0, 0], [0, 0, 255]] }
-        	].map(screensaver => Object.assign(
-        		{ generator: generateLedAlert, options: Object.assign({ fps: 1, tfps: 4, rpm: 60 }, screensaver.options) },
-        		screensaver
-        	)),
-            [
-        		{ id: 'led_flash_red', colors: [[255, 0, 0]] }
-        	].map(screensaver => Object.assign(
-        		{ generator: generateFlash, options: Object.assign({ fps: 16, tfps: 16, rpm: 0 }, screensaver.options) },
-        		screensaver
-        	)),
-            [
-        		{ id: 'led_eyes_red', colors: [[255, 0, 0], [255, 0, 0]] }
-        	].map(screensaver => Object.assign(
-        		{ generator: generateEyes, options: Object.assign({ fps: 2, tfps: 60, rpm: 0 }, screensaver.options) },
-        		screensaver
-        	)),
-        	[
-        		{ id: 'led_swirl_green', colors: [[0, 25, 0]] },
-                { id: 'led_swirl_colorflow', colors: [[0, 0, 0]] }
-        	].map(screensaver => Object.assign(
-        		{ generator: generateSwirl, options: Object.assign({ fps: 1, tfps: 60, rpm: 4 }, screensaver.options) },
-        		screensaver
-        	)),
-        	[
-        		{ id: 'led_rain', colors: [[0, 0, 255]] }
-        	].map(screensaver => Object.assign(
-        		{ generator: generateRain, options: Object.assign({ fps: 1, tfps: 12, rpm: 24 }, screensaver.options) },
-        		screensaver
-        	)),
-        ]).forEach((screensaver) => {
+    // PERSONAL LED COLLECTION
+    Array.prototype.concat.apply([], [
+      [
+        { id: 'led_red_blue_alert', colors: [[255, 0, 0], [0, 0, 255]] }
+    	].map(screensaver => Object.assign(
+    		{ generator: generateLedAlert, options: Object.assign({ fps: 1, tfps: 4, rpm: 60 }, screensaver.options) },
+    		screensaver
+    	)),
+      [
+    		{ id: 'led_flash_red', colors: [[255, 0, 0]] }
+    	].map(screensaver => Object.assign(
+    		{ generator: generateFlash, options: Object.assign({ fps: 16, tfps: 16, rpm: 0 }, screensaver.options) },
+    		screensaver
+    	)),
+      [
+    		{ id: 'led_eyes_red', colors: [[255, 0, 0], [255, 0, 0]] }
+    	].map(screensaver => Object.assign(
+    		{ generator: generateEyes, options: Object.assign({ fps: 2, tfps: 60, rpm: 0 }, screensaver.options) },
+    		screensaver
+    	)),
+    	[
+    		{ id: 'led_swirl_green', colors: [[0, 25, 0]] },
+        { id: 'led_swirl_colorflow', colors: [[0, 0, 0]] }
+    	].map(screensaver => Object.assign(
+    		{ generator: generateSwirl, options: Object.assign({ fps: 1, tfps: 60, rpm: 4 }, screensaver.options) },
+    		screensaver
+    	)),
+    	[
+    		{ id: 'led_rain', colors: [[0, 0, 255]] }
+    	].map(screensaver => Object.assign(
+    		{ generator: generateRain, options: Object.assign({ fps: 1, tfps: 12, rpm: 24 }, screensaver.options) },
+    		screensaver
+    	)),
+    ]).forEach((screensaver) => {
 
-            let animation = new Homey.LedringAnimation({
-                options: screensaver.options,
-                frames: screensaver.generator.apply(null, screensaver.colors)
-            })
+      let animation = new Homey.LedringAnimation({
+        options: screensaver.options,
+        frames: screensaver.generator.apply(null, screensaver.colors)
+      })
 
-            animation
-                .register()
-                    .then(() => {
-                        animation.registerScreensaver(screensaver.id);
-                    })
-                    .catch(() => {
-                        this.log('Error registering animation');
-                    })
+      animation
+        .register()
+          .then(() => {
+            animation.registerScreensaver(screensaver.id);
+          })
+          .catch(() => {
+            this.log('Error registering animation');
+          })
 
-        });
+    });
 
-    }
+  }
 }
 
 module.exports = OwneyApp;
 
 // ============ SPEECH PARSER ============== //
 function parse (text) {
-    var replaceMap = [
-        ['km/u', ' kilometer per uur'],
-        ['kWh', 'kilowatt uur'],
-        [' Z ', ' zuiden '],
-        [' ZW ', ' zuidwesten '],
-        [' WZW ', ' westzuidwesten '],
-        [' W ', ' westen '],
-        [' NW ', ' noordwesten '],
-        [' N ', ' noorden '],
-        [' NO ', ' noordoosten '],
-        [' O ', ' oosten '],
-        [' ZO ', ' zuidoosten '],
-        [/(.*?\d+)(C)\b/gi, function(match, g1) { return g1 + ' graden celcius'} ]
-    ]
+  var replaceMap = [
+    ['km/u', ' kilometer per uur'],
+    ['kWh', 'kilowatt uur'],
+    [' Z ', ' zuiden '],
+    [' ZW ', ' zuidwesten '],
+    [' WZW ', ' westzuidwesten '],
+    [' W ', ' westen '],
+    [' NW ', ' noordwesten '],
+    [' N ', ' noorden '],
+    [' NO ', ' noordoosten '],
+    [' O ', ' oosten '],
+    [' ZO ', ' zuidoosten '],
+    [/(.*?\d+)(C)\b/gi, function(match, g1) { return g1 + ' graden celcius'} ]
+  ]
 
-    var result = text
-    Object.keys(replaceMap).forEach(function (key) {
-        result = result.replace(replaceMap[key][0], replaceMap[key][1])
-    })
+  var result = text
+  Object.keys(replaceMap).forEach(function (key) {
+    result = result.replace(replaceMap[key][0], replaceMap[key][1])
+  })
 
-    return result
+  return result
 }
 
 // ==================== Pattern generators ==================== //
@@ -272,23 +272,23 @@ function generateLedAlert( colRGB1, colRGB2 ) {
 function generateRain( colRGB ) {
 	var frames = [];
 	var frame = [];
-    var randomNumbers = [];
+  var randomNumbers = [];
 
 	// for every pixel...
-    for (var pixel = 0; pixel < 24; pixel++) {
-        var color = [0,0,0];
-        for (var i = 0; i < 8; i++) {
-            randomNumbers[i] = randomPixel(0,23);
-        }
-    	if (isInArray(pixel, randomNumbers)) {
-            color = colRGB;
-        }
-        frame.push({
-            r: color[0], // 0 - 255
-            g: color[1], // 0 - 255
-            b: color[2]  // 0 - 255
-        })
+  for (var pixel = 0; pixel < 24; pixel++) {
+    var color = [0,0,0];
+    for (var i = 0; i < 8; i++) {
+      randomNumbers[i] = randomPixel(0,23);
     }
+  	if (isInArray(pixel, randomNumbers)) {
+      color = colRGB;
+    }
+    frame.push({
+      r: color[0], // 0 - 255
+      g: color[1], // 0 - 255
+      b: color[2]  // 0 - 255
+    })
+  }
 	frames.push(frame);
 	return frames;
 }
@@ -306,7 +306,7 @@ function getColorFlow(){
 }
 
 function randomPixel (low, high) {
-    return Math.floor(Math.random() * (high - low + 1) + low);
+  return Math.floor(Math.random() * (high - low + 1) + low);
 }
 
 function isInArray(value, array) {

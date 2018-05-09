@@ -1,11 +1,11 @@
 {
 	"id": "jghaanstra.homey",
-    "sdk": 2,
+  "sdk": 2,
 	"name": {
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -41,59 +41,59 @@
 			}
 		]
 	},
-    "speech": {
-        "en": {
-            "element": {
-                "echo": {
-                    "type": "regex",
-                    "value": "(echo|repeat|parrot)"
-                }
-            },
-            "group": {
-                "main": {
-                    "set": "echo",
-                    "ordered": false,
-                    "allowDisconnect": false,
-                    "capturingGroup": true
-                }
-            }
-        },
-        "nl": {
-            "element": {
-                "echo": {
-                    "type": "regex",
-                    "value": "(echo|herhaal|herhalen|papegaai|napraten|praat na|praat mij na)"
-                }
-            }
+  "speech": {
+    "en": {
+      "element": {
+        "echo": {
+          "type": "regex",
+          "value": "(echo|repeat|parrot)"
         }
+      },
+      "group": {
+        "main": {
+          "set": "echo",
+          "ordered": false,
+          "allowDisconnect": false,
+          "capturingGroup": true
+        }
+      }
     },
-    "speechExamples": {
-        "en": ["Repeat after me"],
-        "nl": ["Herhaal mij"]
-    },
+    "nl": {
+      "element": {
+        "echo": {
+          "type": "regex",
+          "value": "(echo|herhaal|herhalen|papegaai|napraten|praat na|praat mij na)"
+        }
+      }
+    }
+  },
+  "speechExamples": {
+    "en": ["Repeat after me"],
+    "nl": ["Herhaal mij"]
+  },
 	"screensavers": [
-        {
-	        "name": "led_red_blue_alert",
-	        "title": {
-	            "en": "Alert - Red & Blue",
-	            "nl": "Alarm - Rood & Blauw"
-	        }
-	    },
-        {
-	        "name": "led_eyes_red",
-	        "title": {
-	            "en": "Eyes - Red",
-	            "nl": "Ogen - Rood"
-	        }
-	    },
-        {
-	        "name": "led_flash_red",
-	        "title": {
-	            "en": "Flash - Red",
-	            "nl": "Flits - Rood"
-	        }
-	    },
-        {
+    {
+	    "name": "led_red_blue_alert",
+	    "title": {
+	      "en": "Alert - Red & Blue",
+	      "nl": "Alarm - Rood & Blauw"
+	    }
+	  },
+    {
+	    "name": "led_eyes_red",
+	    "title": {
+	      "en": "Eyes - Red",
+	      "nl": "Ogen - Rood"
+	    }
+	  },
+    {
+	    "name": "led_flash_red",
+	    "title": {
+	      "en": "Flash - Red",
+	      "nl": "Flits - Rood"
+	    }
+	  },
+    {
 			"name": "led_swirl_green",
 			"title": {
 				"en": "Swirl - Green",
