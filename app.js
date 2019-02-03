@@ -1,6 +1,8 @@
 "use strict";
 
 const Homey = require('homey');
+const util = require('util');
+const setTimeoutPromise = util.promisify(setTimeout);
 
 class OwneyApp extends Homey.App {
 
@@ -68,7 +70,15 @@ class OwneyApp extends Homey.App {
       animation
         .register()
           .then(() => {
-            animation.registerScreensaver(screensaver.id);
+            const createScreensavers = async () => {
+              try {
+                await setTimeoutPromise(1000, 'waiting is done');
+                await animation.registerScreensaver(screensaver.id);
+              } catch (error) {
+                this.log(error);
+              }
+            }
+            createScreensavers();
           })
           .catch(() => {
             this.log('Error registering animation');
