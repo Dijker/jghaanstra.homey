@@ -14,7 +14,8 @@ class OwneyApp extends Homey.App {
     new Homey.FlowCardAction('say_parsed_text')
       .register()
       .registerRunListener((args, state) => {
-        Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session})
+        Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
+        return Promise.resolve(true);
       })
 
     // ECHO
