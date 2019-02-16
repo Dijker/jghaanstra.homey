@@ -8,7 +8,7 @@ module.exports = [
 		public   : false,
 		fn: function(args, callback) {
     	Homey.ManagerSpeechOutput.say(args.body.message);
-      callback(null, 'OK');
+      return callback(null, 'OK');
 		}
 	}
 ]

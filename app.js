@@ -14,19 +14,8 @@ class OwneyApp extends Homey.App {
     new Homey.FlowCardAction('say_parsed_text')
       .register()
       .registerRunListener((args, state) => {
-        Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
-        return Promise.resolve(true);
+        return Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
       })
-
-    // ECHO
-    Homey.ManagerSpeechInput.on('speechEval', function(speech, callback) {
-      callback(null, speech);
-    });
-
-    Homey.ManagerSpeechInput.on('speechMatch', function(speech, onSpeechEvalData) {
-      let sentence = speech.transcript.replace(speech.matches.main.echo.transcript, '');
-      Homey.ManagerSpeechOutput.say(sentence);
-    });
 
     // PERSONAL LED COLLECTION
     Array.prototype.concat.apply([], [

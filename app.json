@@ -6,8 +6,8 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.1.0",
-	"compatibility": ">=1.5.12",
+	"version": "2.1.1",
+	"compatibility": ">=2.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
 		"email": "homey@solidewebservices.com"
@@ -174,36 +174,6 @@
 			}
 		]
 	},
-  "speech": {
-    "en": {
-      "element": {
-        "echo": {
-          "type": "regex",
-          "value": "(echo|repeat|parrot)"
-        }
-      },
-      "group": {
-        "main": {
-          "set": "echo",
-          "ordered": false,
-          "allowDisconnect": false,
-          "capturingGroup": true
-        }
-      }
-    },
-    "nl": {
-      "element": {
-        "echo": {
-          "type": "regex",
-          "value": "(echo|herhaal|herhalen|papegaai|napraten|praat na|praat mij na)"
-        }
-      }
-    }
-  },
-  "speechExamples": {
-    "en": ["Repeat after me"],
-    "nl": ["Herhaal mij"]
-  },
 	"screensavers": [
     {
 	    "name": "led_red_blue_alert",
