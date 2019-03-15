@@ -1,0 +1,25 @@
+{
+  "name": "jghaanstra.homey",
+  "version": "2.1.2",
+  "description": "My Homey App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jghaanstra/jghaanstra.homey.git"
+  },
+  "keywords": [
+    "homey"
+  ],
+  "author": "Jelger Haanstra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jghaanstra/jghaanstra.homey/issues"
+  },
+  "homepage": "https://github.com/jghaanstra/jghaanstra.homey/",
+  "dependencies": {
+    "homey-meshdriver": "^1.2.32"
+  }
+}

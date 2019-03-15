@@ -84,8 +84,11 @@ module.exports = OwneyApp;
 // ============ SPEECH PARSER ============== //
 function parse (text) {
   var replaceMap = [
-    ['km/u', ' kilometer per uur'],
-    ['kWh', 'kilowatt uur'],
+    [' km/u', ' kilometer per uur'],
+    [' kilometer/u', ' kilometer per uur'],
+    [' kilometer /u', ' kilometer per uur'],
+    [' kWh', ' kilowatt uur'],
+    [' mm', ' millimeter'],
     [' Z ', ' zuiden '],
     [' ZW ', ' zuidwesten '],
     [' WZW ', ' westzuidwesten '],
