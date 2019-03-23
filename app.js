@@ -10,6 +10,21 @@ class OwneyApp extends Homey.App {
 
     this.log('Initializing Owney app ...');
 
+    // GLOBAL TOKENS
+    let internationalDate = new Homey.FlowToken('international_date', {
+      type: 'string',
+      title: Homey.__('International Date')
+    });
+    internationalDate.register()
+      .then(() => {
+        let d = new Date();
+        let today = d.toISOString().split('T')[0];
+        return internationalDate.setValue(today);
+      })
+      .catch (error => {
+        this.error(error);
+      });
+
     // SPEECH PARSER
     new Homey.FlowCardAction('say_parsed_text')
       .register()
