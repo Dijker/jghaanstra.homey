@@ -18,19 +18,16 @@ class OwneyApp extends Homey.App {
         return Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
       })
 
-    new Homey.FlowCardAction('sayDarkskyToday')
-      .register()
-      .registerRunListener(async (args, state) => {
-        let timestamp = Math.round(new Date() / 1000);
-        let data = await utils.sendCommand('https://api.darksky.net/forecast/'+ Homey.ManagerSettings.get('darksky_api') +'/53.2448,6.5139,'+ timestamp +'?lang=nl&exclude=minutely,hourly,flags&units=si');
-        return Homey.ManagerSpeechOutput.say(parse(data.daily.data[0].summary), {session: state.session});
-      })
-
     new Homey.FlowCardAction('sayWeerliveToday')
       .register()
       .registerRunListener(async (args, state) => {
         let data = await utils.sendCommand('http://weerlive.nl/api/json-data-10min.php?key='+ Homey.ManagerSettings.get('weerlive_api') +'&locatie=53.2448,6.5139');
-        return Homey.ManagerSpeechOutput.say(parse(data.liveweer[0].verw), {session: state.session});
+        let weather = '';
+        weather += Homey.__('The outside temperature is')
+          .replace("{0}", data.liveweer[0].temp)
+          .replace("{1}", data.liveweer[0].d0tmax);
+        weather += Homey.__('And the forecast for today is').replace("{0}", data.liveweer[0].verw);
+        return Homey.ManagerSpeechOutput.say(parse(weather), {session: state.session});
       })
 
     // PERSONAL LED COLLECTION

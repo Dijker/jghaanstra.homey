@@ -173,13 +173,6 @@
 				]
 			},
       {
-				"id": "sayDarkskyToday",
-				"title": {
-					"en":"Darksky Weather Today",
-					"nl":"Darksky weer vandaag"
-				}
-			},
-      {
 				"id": "sayWeerliveToday",
 				"title": {
 					"en":"Weerlive.nl Weather Today",
