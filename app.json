@@ -6,7 +6,7 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.1.3",
+	"version": "2.1.4",
 	"compatibility": ">=2.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -171,6 +171,20 @@
 						"type": "text"
 					}
 				]
+			},
+      {
+				"id": "sayDarkskyToday",
+				"title": {
+					"en":"Darksky Weather Today",
+					"nl":"Darksky weer vandaag"
+				}
+			},
+      {
+				"id": "sayWeerliveToday",
+				"title": {
+					"en":"Weerlive.nl Weather Today",
+					"nl":"Weerlive.nl weer vandaag"
+				}
 			}
 		]
 	},

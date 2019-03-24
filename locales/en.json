@@ -1,3 +1,10 @@
 {
-  "International Date": "International Date"
+  "settings": {
+    "title": "Owney Settings",
+    "generalsettings": "General Settings",
+    "darksky": "Darksky API Key",
+    "weerlive": "Weer Live API Key",
+    "save": "Save",
+    "Settings have been saved succesfully.": "Settings have been saved succesfully."
+  }
 }

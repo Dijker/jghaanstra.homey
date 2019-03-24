@@ -1,3 +1,10 @@
 {
-  "International Date": "Internationale datum"
+  "settings": {
+    "title": "Owney Instellingen",
+    "generalsettings": "Algemene instellingen",
+    "darksky": "Darksky API sleutel",
+    "weerlive": "Weer Live API sleutel",
+    "save": "Opslaan",
+    "Settings have been saved succesfully.": "Instellingen zijn succesvol opgeslagen."
+  }
 }

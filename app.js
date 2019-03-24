@@ -1,6 +1,7 @@
 "use strict";
 
 const Homey = require('homey');
+const utils = require('/lib/utils.js');
 const util = require('util');
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -10,26 +11,26 @@ class OwneyApp extends Homey.App {
 
     this.log('Initializing Owney app ...');
 
-    // GLOBAL TOKENS
-    let internationalDate = new Homey.FlowToken('international_date', {
-      type: 'string',
-      title: Homey.__('International Date')
-    });
-    internationalDate.register()
-      .then(() => {
-        let d = new Date();
-        let today = d.toISOString().split('T')[0];
-        return internationalDate.setValue(today);
-      })
-      .catch (error => {
-        this.error(error);
-      });
-
-    // SPEECH PARSER
+    // ACTION CARDS
     new Homey.FlowCardAction('say_parsed_text')
       .register()
       .registerRunListener((args, state) => {
         return Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
+      })
+
+    new Homey.FlowCardAction('sayDarkskyToday')
+      .register()
+      .registerRunListener(async (args, state) => {
+        let timestamp = Math.round(new Date() / 1000);
+        let data = await utils.sendCommand('https://api.darksky.net/forecast/'+ Homey.ManagerSettings.get('darksky_api') +'/53.2448,6.5139,'+ timestamp +'?lang=nl&exclude=minutely,hourly,flags&units=si');
+        return Homey.ManagerSpeechOutput.say(parse(data.daily.data[0].summary), {session: state.session});
+      })
+
+    new Homey.FlowCardAction('sayWeerliveToday')
+      .register()
+      .registerRunListener(async (args, state) => {
+        let data = await utils.sendCommand('http://weerlive.nl/api/json-data-10min.php?key='+ Homey.ManagerSettings.get('weerlive_api') +'&locatie=53.2448,6.5139');
+        return Homey.ManagerSpeechOutput.say(parse(data.liveweer[0].verw), {session: state.session});
       })
 
     // PERSONAL LED COLLECTION

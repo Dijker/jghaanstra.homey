@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+		<style>
+      .form-group {
+        padding-bottom: 10px;
+      }
+      .owney-status {
+    		display: none;
+    	}
+      .buttons, .messages {
+        padding-top: 10px;
+      }
+      .button {
+        width: 100%;
+        margin-bottom: 4px !important;
+      }
+      .button:disabled {
+        color: #ccc;
+      }
+      .button:enabled {
+        background-color: #00c139 !important;
+        color: #fff;
+      }
+		</style>
+  </head>
+  <body>
+    <h1 data-i18n="settings.title">Owney Settings</h1>
+
+    <fieldset class="owney">
+      <legend data-i18n="settings.generalsettings">General Settings</legend>
+      <div class="form-group">
+        <label for="darksky" data-i18n="settings.darksky">Darksky API Key</label>
+        <input type="text" class="form-control" id="darksky">
+      </div>
+      <div class="form-group">
+        <label for="weerlive" data-i18n="settings.weerlive">Weer Live API Key</label>
+        <input type="text" class="form-control" id="weerlive">
+      </div>
+      <div class="messages">
+        <p class="owney-status" style="color: #008C23;"><i class="fa fa-check"></i> <span class="owney-ok-msg" data-i18n="settings.success">Settings have been saved succesfully.</span></p>
+      </div>
+      <div class="form-group buttons">
+        <button id="save" class="button" data-i18n="settings.save">Save</button>
+      </div>
+    </fieldset>
+
+    <script type="text/javascript">
+      function onHomeyReady(Homey) {
+  	    Homey.get('darksky_api', function(error, darksky) {
+  		     if(error) return console.error('Could not get Darksky API key', error);
+  		     document.getElementById('darksky').value = darksky;
+  		  });
+        Homey.get('weerlive_api', function(error, weerlive) {
+  		     if(error) return console.error('Could not get Weer Live API key', error);
+  		     document.getElementById('weerlive').value = weerlive;
+  		  });
+
+        document.getElementById("save").addEventListener("click", function(elem) {
+          saveSettings(Homey);
+          return false;
+        });
+
+        Homey.ready();
+      }
+
+      function saveSettings(Homey) {
+        Homey.set('darksky_api', document.getElementById('darksky').value);
+        Homey.set('weerlive_api', document.getElementById('weerlive').value);
+
+        document.getElementsByClassName('owney-status')[0].style.display = 'block';
+      };
+    </script>
+  </body>
+</html>
