@@ -63,30 +63,19 @@ class OwneyApp extends Homey.App {
     		{ generator: generateRain, options: Object.assign({ fps: 1, tfps: 12, rpm: 24 }, screensaver.options) },
     		screensaver
     	)),
-    ]).forEach((screensaver) => {
-
+    ]).forEach(async (screensaver) => {
       let animation = new Homey.LedringAnimation({
         options: screensaver.options,
         frames: screensaver.generator.apply(null, screensaver.colors)
       })
 
-      animation
-        .register()
-          .then(() => {
-            const createScreensavers = async () => {
-              try {
-                await setTimeoutPromise(1000, 'waiting is done');
-                await animation.registerScreensaver(screensaver.id);
-              } catch (error) {
-                this.log(error);
-              }
-            }
-            createScreensavers();
-          })
-          .catch(() => {
-            this.log('Error registering animation');
-          })
-
+      try {
+        await animation.register();
+        await setTimeoutPromise(1000, 'waiting is done'); // WORKAROUND FOR RACING CONDITION INTRODUCED IN HOMEY V2
+        await animation.registerScreensaver(screensaver.id); // GENERATES ERROR ON FIRMWARE 2.4.0
+      } catch (error) {
+  			this.log(error);
+  		}
     });
 
   }
