@@ -71,8 +71,7 @@ class OwneyApp extends Homey.App {
 
       try {
         await animation.register();
-        await setTimeoutPromise(1000, 'waiting is done'); // WORKAROUND FOR RACING CONDITION INTRODUCED IN HOMEY V2
-        await animation.registerScreensaver(screensaver.id); // GENERATES ERROR ON FIRMWARE 2.4.0
+        await animation.registerScreensaver(screensaver.id);
       } catch (error) {
   			this.log(error);
   		}

@@ -6,7 +6,7 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.1.4",
+	"version": "2.1.5",
 	"compatibility": ">=2.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
