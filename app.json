@@ -6,7 +6,7 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.1.5",
+	"version": "2.1.6",
 	"compatibility": ">=2.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -23,7 +23,8 @@
 	"permissions": [
 		"homey:manager:ledring",
 		"homey:manager:speech-input",
-		"homey:manager:speech-output"
+		"homey:manager:speech-output",
+    "homey:manager:api"
 	],
   "drivers": [
     {
