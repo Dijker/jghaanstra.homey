@@ -2,7 +2,11 @@
   "settings": {
     "title": "Owney Instellingen",
     "generalsettings": "Algemene instellingen",
-    "weerlive": "Weer Live API sleutel",
+    "weerlive": "Weer Live",
+    "weerliveapi": "Weer Live API sleutel",
+    "assistant_relay": "Google Assistant Relay",
+    "IP": "IP adres",
+    "port": "Poort",
     "save": "Opslaan",
     "Settings have been saved succesfully.": "Instellingen zijn succesvol opgeslagen."
   },

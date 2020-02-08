@@ -179,6 +179,63 @@
 					"en":"Weerlive.nl Weather Today",
 					"nl":"Weerlive.nl weer vandaag"
 				}
+			},
+      {
+				"id": "googleAssistantRelay",
+				"title": {
+					"en":"Assistant Relay Speech",
+					"nl":"Assistant Relay Spraak"
+				},
+        "args": [
+					{
+						"name": "message",
+						"type": "text"
+					},
+          {
+						"name": "user",
+						"type": "text"
+					},
+          {
+						"name": "converse",
+						"type": "dropdown",
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "True",
+                  "nl": "True"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "false",
+                  "nl": "False"
+                }
+              }
+            ]
+					},
+          {
+						"name": "broadcast",
+						"type": "dropdown",
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "True",
+                  "nl": "True"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "false",
+                  "nl": "False"
+                }
+              }
+            ]
+					}
+				]
 			}
 		]
 	},

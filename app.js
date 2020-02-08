@@ -30,6 +30,13 @@ class OwneyApp extends Homey.App {
         return Homey.ManagerSpeechOutput.say(parse(weather), {session: state.session});
       })
 
+    new Homey.FlowCardAction('googleAssistantRelay')
+      .register()
+      .registerRunListener(async (args, state) => {
+        let message = '{"command":"'+ args.message +'", "user":"'+ args.user +'", "converse": '+ args.converse +', "broadcast": '+ args.broadcast +'}'
+        return await utils.sendCommand('http://'+ Homey.ManagerSettings.get('assistant_ip') +':'+ Homey.ManagerSettings.get('assistant_port') +'/assistant', 'POST', message);
+      })
+
     // PERSONAL LED COLLECTION
     Array.prototype.concat.apply([], [
       [

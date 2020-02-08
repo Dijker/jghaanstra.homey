@@ -13,7 +13,7 @@
         padding-top: 10px;
       }
       .button {
-        width: 100%;
+        width: 95%;
         margin-bottom: 4px !important;
       }
       .button:disabled {
@@ -29,24 +29,48 @@
     <h1 data-i18n="settings.title">Owney Settings</h1>
 
     <fieldset class="owney">
-      <legend data-i18n="settings.generalsettings">General Settings</legend>
+      <legend data-i18n="settings.weerlive">Weer Live</legend>
       <div class="form-group">
-        <label for="weerlive" data-i18n="settings.weerlive">Weer Live API Key</label>
+        <label for="weerlive" data-i18n="settings.weerliveapi">Weer Live API Key</label>
         <input type="text" class="form-control" id="weerlive">
       </div>
-      <div class="messages">
-        <p class="owney-status" style="color: #008C23;"><i class="fa fa-check"></i> <span class="owney-ok-msg" data-i18n="settings.success">Settings have been saved succesfully.</span></p>
-      </div>
-      <div class="form-group buttons">
-        <button id="save" class="button" data-i18n="settings.save">Save</button>
-      </div>
     </fieldset>
+
+    <fieldset class="owney">
+      <legend data-i18n="settings.assistant_relay">Google Assistant Relay</legend>
+      <div class="form-group">
+        <label for="assistant_ip" data-i18n="settings.IP">IP</label>
+        <input type="text" class="form-control" id="assistant_ip">
+      </div>
+      <div class="form-group">
+        <label for="assistant_port" data-i18n="settings.port">Port</label>
+        <input type="text" class="form-control" id="assistant_port">
+      </div>
+
+    </fieldset>
+
+    <div class="form-group buttons">
+      <button id="save" class="button" data-i18n="settings.save">Save</button>
+    </div>
+    <div class="messages">
+      <p class="owney-status" style="color: #008C23;"><i class="fa fa-check"></i> <span class="owney-ok-msg" data-i18n="settings.success">Settings have been saved succesfully.</span></p>
+    </div>
 
     <script type="text/javascript">
       function onHomeyReady(Homey) {
         Homey.get('weerlive_api', function(error, weerlive) {
   		     if(error) return console.error('Could not get Weer Live API key', error);
   		     document.getElementById('weerlive').value = weerlive;
+  		  });
+
+        Homey.get('assistant_ip', function(error, assistant_ip) {
+  		     if(error) return console.error('Could not get Assistant IP', error);
+  		     document.getElementById('assistant_ip').value = assistant_ip;
+  		  });
+
+        Homey.get('assistant_port', function(error, assistant_port) {
+  		     if(error) return console.error('Could not get Assistant Port', error);
+  		     document.getElementById('assistant_port').value = assistant_port;
   		  });
 
         document.getElementById("save").addEventListener("click", function(elem) {
@@ -59,6 +83,8 @@
 
       function saveSettings(Homey) {
         Homey.set('weerlive_api', document.getElementById('weerlive').value);
+        Homey.set('assistant_ip', document.getElementById('assistant_ip').value);
+        Homey.set('assistant_port', document.getElementById('assistant_port').value);
 
         document.getElementsByClassName('owney-status')[0].style.display = 'block';
       };
