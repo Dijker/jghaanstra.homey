@@ -4,9 +4,10 @@
     "generalsettings": "Algemene instellingen",
     "weerlive": "Weer Live",
     "weerliveapi": "Weer Live API sleutel",
-    "assistant_relay": "Google Assistant Relay",
+    "home_assistant": "Home Assistant",
     "IP": "IP adres",
     "port": "Poort",
+    "token": "Token",
     "save": "Opslaan",
     "Settings have been saved succesfully.": "Instellingen zijn succesvol opgeslagen."
   },

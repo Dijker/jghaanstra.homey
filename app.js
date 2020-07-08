@@ -30,12 +30,22 @@ class OwneyApp extends Homey.App {
         return Homey.ManagerSpeechOutput.say(parse(weather), {session: state.session});
       })
 
-    new Homey.FlowCardAction('googleAssistantRelay')
-      .register()
-      .registerRunListener(async (args, state) => {
-        let message = '{"command":"'+ args.message +'", "user":"'+ args.user +'", "converse": '+ args.converse +', "broadcast": '+ args.broadcast +'}'
-        return await utils.sendCommand('http://'+ Homey.ManagerSettings.get('assistant_ip') +':'+ Homey.ManagerSettings.get('assistant_port') +'/assistant', 'POST', message);
-      })
+      new Homey.FlowCardAction('sonosSay')
+        .register()
+        .registerRunListener(async (args, state) => {
+          let path = 'http://'+ Homey.ManagerSettings.get("home_assistant_ip") +':'+ Homey.ManagerSettings.get("home_assistant_port")+ '/api/events/sonos_say';
+          let payload = '{"where": "media_player.huiskamer", "what": "'+ args.message +'", "service": "'+ args.service +'", "volume": '+ args.volume +'}';
+          let headers = '{"Authorization": "Bearer '+ Homey.ManagerSettings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
+          return await utils.sendCommand(path, 'POST', payload, headers);
+        })
+
+      new Homey.FlowCardAction('homeAssistantEvent')
+        .register()
+        .registerRunListener(async (args, state) => {
+          let path = 'http://'+ Homey.ManagerSettings.get("home_assistant_ip") +':'+ Homey.ManagerSettings.get("home_assistant_port")+ '/api/events/'+ args.event +'';
+          let headers = '{"Authorization": "Bearer '+ Homey.ManagerSettings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
+          return await utils.sendCommand(path, 'POST', args.data, headers);
+        })
 
     // PERSONAL LED COLLECTION
     Array.prototype.concat.apply([], [

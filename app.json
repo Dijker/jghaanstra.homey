@@ -6,7 +6,7 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.1.6",
+	"version": "2.3.0",
 	"compatibility": ">=2.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -23,141 +23,8 @@
 	"permissions": [
 		"homey:manager:ledring",
 		"homey:manager:speech-input",
-		"homey:manager:speech-output",
-    "homey:manager:api"
+		"homey:manager:speech-output"
 	],
-  "drivers": [
-    {
-      "id": "05431",
-      "name": {
-        "en": "Düwi Built-in Switch (ZW ES 1000)",
-        "nl": "Düwi Inbouw Schakelaar (ZW ES 1000)"
-      },
-      "class": "light",
-      "capabilities": [
-        "onoff"
-      ],
-      "images": {
-        "large": "/drivers/05431/assets/images/large.png",
-        "small": "/drivers/05431/assets/images/small.png"
-      },
-      "zwave": {
-        "manufacturerId": 100,
-        "productTypeId": 8193,
-        "productId": 0,
-        "learnmode": {
-          "image": "/drivers/05431/assets/learnmode.svg",
-          "instruction": {
-            "en": "Press the on or off button three times",
-            "nl": "Druk driemaal op de aan of uit knoppen"
-          }
-        },
-        "associationGroups": [1, 2, 3],
-        "singleChannelNode": {
-          "1": {
-            "class": "light",
-            "capabilities": ["onoff"],
-            "icon": "/drivers/05431/assets/channel.svg",
-            "name": {
-              "en": "Düwi built-in Switch",
-              "nl": "Düwi inbouw Schakelaar"
-            }
-          }
-        }
-      },
-      "settings": [
-        {
-          "id": "switch_off_after",
-          "type": "number",
-          "attr": {
-            "min": 0,
-            "max": 65535
-          },
-          "value": 0,
-          "label": {
-            "en": "Auto switch off after",
-            "nl": "Automatisch uitschakelen na"
-          },
-          "hint": {
-            "en": "If not zero, automatically switch off after a user defined time in seconds.",
-            "nl": "Indien niet nul, automatisch uitschakelen na de ingestelde tijd in seconden."
-          }
-        },
-        {
-          "id": "switch_by_buttons",
-          "type": "dropdown",
-          "label": {
-            "en": "Switch by buttons",
-            "nl": "Schakel door knoppen"
-          },
-          "value": "1",
-          "hint": {
-            "en": "If disabled, the local operations by buttons will not switch the load, but only send commands to On/Off association group.",
-            "nl": "Indien uitgeschakeld zullen de knoppen niet meer schakelen maar alleen een aan/uit commando versturen naar de associatie groep."
-          },
-          "values": [
-            {
-              "id": "0",
-              "label": {
-                "en": "No",
-                "nl": "Nee"
-              }
-            },
-            {
-              "id": "1",
-              "label": {
-                "en": "By single press and hold",
-                "nl": "Door enkel drukken en vasthouden"
-              }
-            },
-            {
-              "id": "2",
-              "label": {
-                "en": "By double press and press-hold",
-                "nl": "Door dubbel drukken en vasthouden"
-              }
-            }
-          ]
-        },
-        {
-          "id": "button_down_press",
-          "type": "dropdown",
-          "label": {
-              "en": "What to do on button Down press",
-              "nl": "Wat te doen by drukken op uitschakelen"
-          },
-          "value": "0",
-          "hint": {
-              "en": "Defines how to interpret button Down press. Depends on 'Switch by buttons' parameter. If not Disabled this parameter will affect the action selected by the latter parameter.",
-              "nl": "Bepaalt hoe het drukken op uitschakelen wordt afgehandeld. Is afhankelijk van 'Schakelen door knopppen' parameter. Indien deze niet is uitgeschakeld bepaald deze parameter welke actie wordt ondernomen bij het uitschakelen."
-          },
-          "values": [
-            {
-              "id": "0",
-              "label": {
-                "en": "Switch off",
-                "nl": "Uitschakelen"
-              }
-            },
-            {
-              "id": "1",
-              "label": {
-                "en": "Switch On if load is Off, else switch Off",
-                "nl": "Inschakelen indien uitgeschakeld, anders uitschakelen"
-              }
-            },
-            {
-              "id": "2",
-              "label": {
-                "en": "Switch on",
-                "nl": "Inschakelen"
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ],
 	"flow": {
 		"actions": [
 			{
@@ -181,10 +48,10 @@
 				}
 			},
       {
-				"id": "googleAssistantRelay",
+				"id": "sonosSay",
 				"title": {
-					"en":"Assistant Relay Speech",
-					"nl":"Assistant Relay Spraak"
+					"en":"Sonos Say",
+					"nl":"Sonos Say"
 				},
         "args": [
 					{
@@ -192,48 +59,59 @@
 						"type": "text"
 					},
           {
-						"name": "user",
-						"type": "text"
+						"name": "volume",
+						"type": "range",
+            "min": 0,
+            "max": 1,
+            "step": 0.01,
+            "label": "%",
+            "labelMultiplier": 100,
+            "labelDecimals": 0
 					},
           {
-						"name": "converse",
+						"name": "service",
 						"type": "dropdown",
             "values": [
               {
-                "id": "true",
+                "id": "tts.google_say",
                 "label": {
-                  "en": "True",
-                  "nl": "True"
+                  "en": "Google",
+                  "nl": "Google"
                 }
               },
               {
-                "id": "false",
+                "id": "tts.voicerss_say",
                 "label": {
-                  "en": "false",
-                  "nl": "False"
+                  "en": "VoiceRSS",
+                  "nl": "VoiceRSS"
                 }
               }
             ]
+					}
+				]
+			},
+      {
+				"id": "homeAssistantEvent",
+				"title": {
+					"en":"Home Assistant Event",
+					"nl":"Home Assistant Event"
+				},
+        "args": [
+					{
+						"name": "event",
+						"type": "text",
+            "placeholder": {
+              "en": "Event name",
+              "nl": "Event naam"
+            }
 					},
           {
-						"name": "broadcast",
-						"type": "dropdown",
-            "values": [
-              {
-                "id": "true",
-                "label": {
-                  "en": "True",
-                  "nl": "True"
-                }
-              },
-              {
-                "id": "false",
-                "label": {
-                  "en": "false",
-                  "nl": "False"
-                }
-              }
-            ]
+						"name": "data",
+						"type": "text",
+            "placeholder": {
+              "en": "{}",
+              "nl": "{}"
+            }
 					}
 				]
 			}

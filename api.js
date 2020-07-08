@@ -11,19 +11,5 @@ module.exports = [
     	Homey.ManagerSpeechOutput.say(args.body.message);
       return callback(null, 'OK');
 		}
-	},
-  {
-		description: 'Return data from devices',
-		method   : 'POST',
-		path     : '/owneyapi',
-		public   : true,
-		fn: async function(args, callback) {
-      try {
-        const data = await util.getData(args.body.devices.split(", "));
-        return callback(null, data);
-      } catch (error) {
-        return callback(error, false);
-      }
-		}
 	}
 ]

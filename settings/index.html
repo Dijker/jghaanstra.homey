@@ -37,16 +37,19 @@
     </fieldset>
 
     <fieldset class="owney">
-      <legend data-i18n="settings.assistant_relay">Google Assistant Relay</legend>
+      <legend data-i18n="settings.home_assistant">Home Assistant</legend>
       <div class="form-group">
-        <label for="assistant_ip" data-i18n="settings.IP">IP</label>
-        <input type="text" class="form-control" id="assistant_ip">
+        <label for="home_assistant_ip" data-i18n="settings.IP">IP</label>
+        <input type="text" class="form-control" id="home_assistant_ip">
       </div>
       <div class="form-group">
-        <label for="assistant_port" data-i18n="settings.port">Port</label>
-        <input type="text" class="form-control" id="assistant_port">
+        <label for="home_assistant_port" data-i18n="settings.port">Port</label>
+        <input type="text" class="form-control" id="home_assistant_port">
       </div>
-
+      <div class="form-group">
+        <label for="home_assistant_token" data-i18n="settings.token">Token</label>
+        <input type="text" class="form-control" id="home_assistant_token">
+      </div>
     </fieldset>
 
     <div class="form-group buttons">
@@ -63,14 +66,19 @@
   		     document.getElementById('weerlive').value = weerlive;
   		  });
 
-        Homey.get('assistant_ip', function(error, assistant_ip) {
-  		     if(error) return console.error('Could not get Assistant IP', error);
-  		     document.getElementById('assistant_ip').value = assistant_ip;
+        Homey.get('home_assistant_ip', function(error, home_assistant_ip) {
+  		     if(error) return console.error('Could not get Home Assistant IP', error);
+  		     document.getElementById('home_assistant_ip').value = home_assistant_ip;
   		  });
 
-        Homey.get('assistant_port', function(error, assistant_port) {
-  		     if(error) return console.error('Could not get Assistant Port', error);
-  		     document.getElementById('assistant_port').value = assistant_port;
+        Homey.get('home_assistant_port', function(error, home_assistant_port) {
+  		     if(error) return console.error('Could not get Home Assistant Port', error);
+  		     document.getElementById('home_assistant_port').value = home_assistant_port;
+  		  });
+
+        Homey.get('home_assistant_token', function(error, home_assistant_token) {
+  		     if(error) return console.error('Could not get Home Assistant Token', error);
+  		     document.getElementById('home_assistant_token').value = home_assistant_token;
   		  });
 
         document.getElementById("save").addEventListener("click", function(elem) {
@@ -83,8 +91,9 @@
 
       function saveSettings(Homey) {
         Homey.set('weerlive_api', document.getElementById('weerlive').value);
-        Homey.set('assistant_ip', document.getElementById('assistant_ip').value);
-        Homey.set('assistant_port', document.getElementById('assistant_port').value);
+        Homey.set('home_assistant_ip', document.getElementById('home_assistant_ip').value);
+        Homey.set('home_assistant_port', document.getElementById('home_assistant_port').value);
+        Homey.set('home_assistant_token', document.getElementById('home_assistant_token').value);
 
         document.getElementsByClassName('owney-status')[0].style.display = 'block';
       };

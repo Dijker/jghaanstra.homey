@@ -4,9 +4,10 @@
     "generalsettings": "General Settings",
     "weerlive": "Weer Live",
     "weerliveapi": "Weer Live API Key",
-    "assistant_relay": "Google Assistant Relay",
+    "home_assistant": "Home Assistant",
     "IP": "IP Address",
     "port": "Port",
+    "token": "Token",
     "save": "Save",
     "Settings have been saved succesfully.": "Settings have been saved succesfully."
   },
