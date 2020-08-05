@@ -9,8 +9,11 @@
     "port": "Port",
     "token": "Token",
     "save": "Save",
-    "Settings have been saved succesfully.": "Settings have been saved succesfully."
+    "success": "Settings have been saved succesfully."
   },
-  "The outside temperature is": "The current outside temperature is {0} degrees with a maximum of {1}. ",
-  "And the forecast for today is": "And the forecast for today is {0}."
+  "app": {
+    "outside_temperature": "The current outside temperature is {0} degrees with a maximum of {1}. ",
+    "today_forecast": "And the forecast for today is {0}."
+  }
+
 }

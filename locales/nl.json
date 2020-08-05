@@ -9,8 +9,11 @@
     "port": "Poort",
     "token": "Token",
     "save": "Opslaan",
-    "Settings have been saved succesfully.": "Instellingen zijn succesvol opgeslagen."
+    "success": "Instellingen zijn succesvol opgeslagen."
   },
-  "The outside temperature is": "De huidige buitentemperatuur is {0} graden met een maximum van {1}. ",
-  "And the forecast for today is": "En het weer voor vandaag is {0}."
+  "app": {
+    "outside_temperature": "De huidige buitentemperatuur is {0} graden met een maximum van {1}. ",
+    "today_forecast": "En het weer voor vandaag is {0}."
+  }
+
 }

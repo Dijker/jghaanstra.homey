@@ -1,50 +1,45 @@
-"use strict";
+'use strict';
 
 const Homey = require('homey');
-const utils = require('/lib/utils.js');
-const util = require('util');
-const setTimeoutPromise = util.promisify(setTimeout);
+const Util = require('/lib/util.js');
 
 class OwneyApp extends Homey.App {
 
   onInit() {
-
     this.log('Initializing Owney app ...');
 
+    if (!this.util) this.util = new Util({homey: this.homey });
+
     // ACTION CARDS
-    new Homey.FlowCardAction('say_parsed_text')
-      .register()
-      .registerRunListener((args, state) => {
-        return Homey.ManagerSpeechOutput.say(parse(args.text), {session: state.session});
+    this.homey.flow.getActionCard('say_parsed_text')
+      .registerRunListener(async (args, state) => {
+        return await this.homey.speechOutput.say(parse(args.text), {session: state.session});
       })
 
-    new Homey.FlowCardAction('sayWeerliveToday')
-      .register()
+    this.homey.flow.getActionCard('sayWeerliveToday')
       .registerRunListener(async (args, state) => {
-        let data = await utils.sendCommand('http://weerlive.nl/api/json-data-10min.php?key='+ Homey.ManagerSettings.get('weerlive_api') +'&locatie=53.2448,6.5139');
+        let data = await this.util.sendCommand('http://weerlive.nl/api/json-data-10min.php?key='+ this.homey.settings.get('weerlive_api') +'&locatie=53.2448,6.5139');
         let weather = '';
-        weather += Homey.__('The outside temperature is')
+        weather += this.homey.__('app.outside_temperature')
           .replace("{0}", data.liveweer[0].temp)
           .replace("{1}", data.liveweer[0].d0tmax);
-        weather += Homey.__('And the forecast for today is').replace("{0}", data.liveweer[0].verw);
-        return Homey.ManagerSpeechOutput.say(parse(weather), {session: state.session});
+        weather += this.homey.__('app.today_forecast').replace("{0}", data.liveweer[0].verw);
+        return await this.homey.speechOutput.say(parse(weather), {session: state.session});
       })
 
-      new Homey.FlowCardAction('sonosSay')
-        .register()
-        .registerRunListener(async (args, state) => {
-          let path = 'http://'+ Homey.ManagerSettings.get("home_assistant_ip") +':'+ Homey.ManagerSettings.get("home_assistant_port")+ '/api/events/sonos_say';
+      this.homey.flow.getActionCard('sonosSay')
+        .registerRunListener(async (args) => {
+          let path = 'http://'+ this.homey.settings.get("home_assistant_ip") +':'+ this.homey.settings.get("home_assistant_port")+ '/api/events/sonos_say';
           let payload = '{"where": "media_player.huiskamer", "what": "'+ args.message +'", "service": "'+ args.service +'", "volume": '+ args.volume +'}';
-          let headers = '{"Authorization": "Bearer '+ Homey.ManagerSettings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
-          return await utils.sendCommand(path, 'POST', payload, headers);
+          let headers = '{"Authorization": "Bearer '+ this.homey.settings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
+          return await this.util.sendCommand(path, 'POST', payload, headers);
         })
 
-      new Homey.FlowCardAction('homeAssistantEvent')
-        .register()
-        .registerRunListener(async (args, state) => {
-          let path = 'http://'+ Homey.ManagerSettings.get("home_assistant_ip") +':'+ Homey.ManagerSettings.get("home_assistant_port")+ '/api/events/'+ args.event +'';
-          let headers = '{"Authorization": "Bearer '+ Homey.ManagerSettings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
-          return await utils.sendCommand(path, 'POST', args.data, headers);
+      this.homey.flow.getActionCard('homeAssistantEvent')
+        .registerRunListener(async (args) => {
+          let path = 'http://'+ this.homey.settings.get("home_assistant_ip") +':'+ this.homey.settings.get("home_assistant_port")+ '/api/events/'+ args.event +'';
+          let headers = '{"Authorization": "Bearer '+ this.homey.settings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
+          return await this.util.sendCommand(path, 'POST', args.data, headers);
         })
 
     // PERSONAL LED COLLECTION
@@ -81,13 +76,12 @@ class OwneyApp extends Homey.App {
     		screensaver
     	)),
     ]).forEach(async (screensaver) => {
-      let animation = new Homey.LedringAnimation({
+      let animation = await this.homey.ledring.createAnimation({
         options: screensaver.options,
         frames: screensaver.generator.apply(null, screensaver.colors)
       })
 
       try {
-        await animation.register();
         await animation.registerScreensaver(screensaver.id);
       } catch (error) {
   			this.log(error);

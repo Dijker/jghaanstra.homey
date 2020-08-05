@@ -1,13 +1,13 @@
 {
 	"id": "jghaanstra.homey",
-  "sdk": 2,
+  "sdk": 3,
   "brandColor": "#435369",
 	"name": {
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "2.3.0",
-	"compatibility": ">=2.0.0",
+	"version": "3.0.0",
+	"compatibility": ">=5.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
 		"email": "homey@solidewebservices.com"
@@ -25,6 +25,13 @@
 		"homey:manager:speech-input",
 		"homey:manager:speech-output"
 	],
+  "api": {
+    "sayTextRequest": {
+      "method": "put",
+      "path": "/say/:source",
+      "public": true
+    }
+  },
 	"flow": {
 		"actions": [
 			{

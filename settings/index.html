@@ -61,25 +61,34 @@
 
     <script type="text/javascript">
       function onHomeyReady(Homey) {
-        Homey.get('weerlive_api', function(error, weerlive) {
-  		     if(error) return console.error('Could not get Weer Live API key', error);
-  		     document.getElementById('weerlive').value = weerlive;
-  		  });
-
-        Homey.get('home_assistant_ip', function(error, home_assistant_ip) {
-  		     if(error) return console.error('Could not get Home Assistant IP', error);
-  		     document.getElementById('home_assistant_ip').value = home_assistant_ip;
-  		  });
-
-        Homey.get('home_assistant_port', function(error, home_assistant_port) {
-  		     if(error) return console.error('Could not get Home Assistant Port', error);
-  		     document.getElementById('home_assistant_port').value = home_assistant_port;
-  		  });
-
-        Homey.get('home_assistant_token', function(error, home_assistant_token) {
-  		     if(error) return console.error('Could not get Home Assistant Token', error);
-  		     document.getElementById('home_assistant_token').value = home_assistant_token;
-  		  });
+        Homey.get('weerlive_api')
+          .then(weerlive => {
+            document.getElementById('weerlive').value = weerlive;
+          })
+          .catch(error => {
+            return console.error('Could not get Weer Live API key', error);
+          })
+        Homey.get('home_assistant_ip')
+          .then(home_assistant_ip => {
+            document.getElementById('home_assistant_ip').value = home_assistant_ip;
+          })
+          .catch(error => {
+            return console.error('Could not get Home Assistant IP', error);
+          })
+        Homey.get('home_assistant_port')
+          .then(home_assistant_port => {
+            document.getElementById('home_assistant_port').value = home_assistant_port;
+          })
+          .catch(error => {
+            return console.error('Could not get Home Assistant Port', error);
+          })
+        Homey.get('home_assistant_token')
+          .then(home_assistant_token => {
+            document.getElementById('home_assistant_token').value = home_assistant_token;
+          })
+          .catch(error => {
+            return console.error('Could not get Home Assistant Token', error);
+          })
 
         document.getElementById("save").addEventListener("click", function(elem) {
           saveSettings(Homey);

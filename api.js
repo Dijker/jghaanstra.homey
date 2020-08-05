@@ -1,15 +1,12 @@
-const Homey = require('homey');
-const util = require('/lib/utils.js');
+'use strict';
 
-module.exports = [
-	{
-		description: 'Say text from POST request',
-		method   : 'POST',
-		path     : '/say/:source',
-		public   : true,
-		fn: function(args, callback) {
-    	Homey.ManagerSpeechOutput.say(args.body.message);
-      return callback(null, 'OK');
-		}
-	}
-]
+const Util = require('/lib/util.js');
+
+module.exports = {
+  async sayTextRequest({homey, body}) {
+    const util = new Util({homey: homey});
+
+    const result = await homey.speechOutput.say(body.message);
+    return result;
+  }
+}
