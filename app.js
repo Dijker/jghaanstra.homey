@@ -10,6 +10,12 @@ class OwneyApp extends Homey.App {
 
     if (!this.util) this.util = new Util({homey: this.homey });
 
+    // CONDITION CARDS
+    this.homey.flow.getConditionCard('conditionPoESwitch')
+      .registerRunListener(async (args, state) => {
+        return await this.util.getPoEPort(args.deviceid, args.devicemac, args.port);
+      })
+
     // ACTION CARDS
     this.homey.flow.getActionCard('say_parsed_text')
       .registerRunListener(async (args, state) => {
@@ -41,6 +47,12 @@ class OwneyApp extends Homey.App {
           let headers = '{"Authorization": "Bearer '+ this.homey.settings.get("home_assistant_token") +'", "Content-Type": "application/json"}';
           return await this.util.sendCommand(path, 'POST', args.data, headers);
         })
+
+      this.homey.flow.getActionCard('unifiPoE')
+        .registerRunListener(async (args, state) => {
+          return await this.util.switchPoEPorts(args.deviceid, args.devicemac, args.ports, args.poe_mode);
+        })
+
 
     // PERSONAL LED COLLECTION
     Array.prototype.concat.apply([], [

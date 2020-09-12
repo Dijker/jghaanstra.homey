@@ -6,7 +6,7 @@
 		"en": "Owney App",
 		"nl": "Owney App"
 	},
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"compatibility": ">=5.0.0",
 	"author": {
 		"name": "Jelger Haanstra",
@@ -33,6 +33,41 @@
     }
   },
 	"flow": {
+    "conditions": [
+      {
+        "id": "conditionPoESwitch",
+        "title": {
+          "en": "PoE !{{is|isn't}} on",
+          "nl": "PoE !{{is|is niet}} aan"
+        },
+        "args": [
+					{
+						"name": "deviceid",
+						"type": "text",
+            "placeholder": {
+              "en": "Device ID",
+              "nl": "Device ID"
+            }
+					},
+          {
+						"name": "devicemac",
+						"type": "text",
+            "placeholder": {
+              "en": "Device MAC",
+              "nl": "Device MAC"
+            }
+					},
+          {
+						"name": "port",
+						"type": "text",
+            "placeholder": {
+              "en": "Port",
+              "nl": "Port"
+            }
+					}
+				]
+      }
+    ],
 		"actions": [
 			{
 				"id": "say_parsed_text",
@@ -119,6 +154,59 @@
               "en": "{}",
               "nl": "{}"
             }
+					}
+				]
+			},
+      {
+				"id": "unifiPoE",
+				"title": {
+					"en":"Switch PoE ports",
+					"nl":"Schakel PoE ports"
+				},
+				"args": [
+					{
+						"name": "deviceid",
+						"type": "text",
+            "placeholder": {
+              "en": "Device ID",
+              "nl": "Device ID"
+            }
+					},
+          {
+						"name": "devicemac",
+						"type": "text",
+            "placeholder": {
+              "en": "Device MAC",
+              "nl": "Device MAC"
+            }
+					},
+          {
+						"name": "ports",
+						"type": "text",
+            "placeholder": {
+              "en": "Ports (comma seperated)",
+              "nl": "Ports (komma gescheiden)"
+            }
+					},
+          {
+						"name": "poe_mode",
+						"type": "dropdown",
+            "values": [
+              {
+                "id": "auto",
+                "label": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "off",
+                "label": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
 					}
 				]
 			}

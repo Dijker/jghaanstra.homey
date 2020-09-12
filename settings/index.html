@@ -39,16 +39,36 @@
     <fieldset class="owney">
       <legend data-i18n="settings.home_assistant">Home Assistant</legend>
       <div class="form-group">
-        <label for="home_assistant_ip" data-i18n="settings.IP">IP</label>
+        <label for="home_assistant_ip" data-i18n="settings.home_assistant_ip">IP</label>
         <input type="text" class="form-control" id="home_assistant_ip">
       </div>
       <div class="form-group">
-        <label for="home_assistant_port" data-i18n="settings.port">Port</label>
-        <input type="text" class="form-control" id="home_assistant_port">
+        <label for="home_assistant_port" data-i18n="settings.home_assistant_port">Port</label>
+        <input type="number" class="form-control" id="home_assistant_port" placeholder="8123">
       </div>
       <div class="form-group">
-        <label for="home_assistant_token" data-i18n="settings.token">Token</label>
+        <label for="home_assistant_token" data-i18n="settings.home_assistant_token">Token</label>
         <input type="text" class="form-control" id="home_assistant_token">
+      </div>
+    </fieldset>
+
+    <fieldset class="unifi">
+      <legend data-i18n="settings.unifi">UniFi Controller</legend>
+      <div class="form-group">
+        <label for="unifi_ip" data-i18n="settings.unifi_ip">IP</label>
+        <input type="text" class="form-control" id="unifi_ip">
+      </div>
+      <div class="form-group">
+        <label for="unifi_port" data-i18n="settings.unifi_port">Port</label>
+        <input type="number" class="form-control" id="unifi_port" placeholder="8443">
+      </div>
+      <div class="form-group">
+        <label for="unifi_username" data-i18n="settings.unifi_username">Username</label>
+        <input type="text" class="form-control" id="unifi_username">
+      </div>
+      <div class="form-group">
+        <label for="unifi_password" data-i18n="settings.unifi_ppassword">Password</label>
+        <input type="text" class="form-control" id="unifi_password">
       </div>
     </fieldset>
 
@@ -89,6 +109,34 @@
           .catch(error => {
             return console.error('Could not get Home Assistant Token', error);
           })
+        Homey.get('unifi_ip')
+          .then(unifi_ip => {
+            document.getElementById('unifi_ip').value = unifi_ip;
+          })
+          .catch(error => {
+            return console.error('Could not get UniFi IP', error);
+          })
+        Homey.get('unifi_port')
+          .then(unifi_port => {
+            document.getElementById('unifi_port').value = unifi_port;
+          })
+          .catch(error => {
+            return console.error('Could not get UniFi Port', error);
+          })
+        Homey.get('unifi_username')
+          .then(unifi_username => {
+            document.getElementById('unifi_username').value = unifi_username;
+          })
+          .catch(error => {
+            return console.error('Could not get UniFi Username', error);
+          })
+        Homey.get('unifi_password')
+          .then(unifi_password => {
+            document.getElementById('unifi_password').value = unifi_password;
+          })
+          .catch(error => {
+            return console.error('Could not get UniFi Password', error);
+          })
 
         document.getElementById("save").addEventListener("click", function(elem) {
           saveSettings(Homey);
@@ -103,6 +151,10 @@
         Homey.set('home_assistant_ip', document.getElementById('home_assistant_ip').value);
         Homey.set('home_assistant_port', document.getElementById('home_assistant_port').value);
         Homey.set('home_assistant_token', document.getElementById('home_assistant_token').value);
+        Homey.set('unifi_ip', document.getElementById('unifi_ip').value);
+        Homey.set('unifi_port', document.getElementById('unifi_port').value);
+        Homey.set('unifi_username', document.getElementById('unifi_username').value);
+        Homey.set('unifi_password', document.getElementById('unifi_password').value);
 
         document.getElementsByClassName('owney-status')[0].style.display = 'block';
       };
